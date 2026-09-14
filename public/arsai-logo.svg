@@ -1,0 +1,85 @@
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="forestGradient" x1="10" y1="10" x2="110" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#134737" />
+      <stop offset="0.6" stop-color="#0d3427" />
+      <stop offset="1" stop-color="#082219" />
+    </linearGradient>
+    <linearGradient id="terracottaGrad" x1="30" y1="10" x2="110" y2="90" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#dd6b3d" />
+      <stop offset="1" stop-color="#b44b20" />
+    </linearGradient>
+    <filter id="markShadow" x="0" y="0" width="120" height="120" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#061811" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Outer seal disc -->
+  <circle cx="60" cy="60" r="54" fill="url(#forestGradient)" filter="url(#markShadow)" />
+
+  <!-- Subtle circular heritage arc around the figure -->
+  <circle cx="60" cy="60" r="49" stroke="#dd6b3d" stroke-width="1.75" stroke-dasharray="6 3 14 3 32 4 10 3" stroke-opacity="0.85" />
+  <circle cx="60" cy="60" r="45" stroke="#ffffff" stroke-width="0.75" stroke-opacity="0.18" />
+
+  <!-- Priest-King Bust Group -->
+  <g id="priest-king-figure" transform="translate(60, 60)">
+    <!-- Draped Shoulder & Chest Robe -->
+    <path d="M -36 34 C -34 22 -26 15 -14 11 C -4 8 10 9 24 13 C 33 16 38 24 40 34 C 20 40 -12 40 -36 34 Z" fill="#1c5c48" />
+
+    <!-- Robe Fold & Neckline with Terracotta Border -->
+    <path d="M -30 35 C -25 24 -15 16 -3 14 C 10 12 24 15 35 24" stroke="url(#terracottaGrad)" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Trefoil embroidery motifs -->
+    <g transform="translate(-16, 25) scale(0.65)" fill="#dd6b3d">
+      <circle cx="0" cy="-4" r="2.8" />
+      <circle cx="-3.5" cy="2.5" r="2.8" />
+      <circle cx="3.5" cy="2.5" r="2.8" />
+      <circle cx="0" cy="0" r="1.2" fill="#134737" />
+    </g>
+    <g transform="translate(14, 27) scale(0.65)" fill="#dd6b3d">
+      <circle cx="0" cy="-4" r="2.8" />
+      <circle cx="-3.5" cy="2.5" r="2.8" />
+      <circle cx="3.5" cy="2.5" r="2.8" />
+      <circle cx="0" cy="0" r="1.2" fill="#134737" />
+    </g>
+
+    <!-- Neck -->
+    <path d="M -12 12 L -12 -2 C -12 -5 -9 -8 -5 -9 L 7 -9 C 11 -8 13 -5 13 -2 L 14 13 Z" fill="#f6efe6" />
+
+    <!-- Chin and Jaw Profile -->
+    <path d="M -16 -4 C -16 6 -8 14 0 14 C 8 14 15 8 15 -2 L 14 -16 L -15 -16 Z" fill="#eddcc7" />
+
+    <!-- Characteristic Trimmed Beard -->
+    <path d="M -15 -2 C -15 7 -8 13 0 13 C 8 13 14 7 14 -2 C 14 -3 10 0 0 0 C -10 0 -15 -3 -15 -2 Z" fill="#134737" />
+    <line x1="-10" y1="4" x2="-3" y2="4" stroke="#eddcc7" stroke-width="0.8" stroke-linecap="round" opacity="0.6" />
+    <line x1="3" y1="4" x2="10" y2="4" stroke="#eddcc7" stroke-width="0.8" stroke-linecap="round" opacity="0.6" />
+    <line x1="-8" y1="8" x2="8" y2="8" stroke="#eddcc7" stroke-width="0.8" stroke-linecap="round" opacity="0.6" />
+
+    <!-- Face -->
+    <path d="M -15 -16 C -15 -10 -15 -4 -13 0 C -8 3 8 3 13 0 C 14 -4 14 -10 14 -16 Z" fill="#f6efe6" />
+
+    <!-- Eyes -->
+    <ellipse cx="-6" cy="-8" rx="3.5" ry="1.4" fill="#0d3427" />
+    <circle cx="-6" cy="-8" r="0.6" fill="#ffffff" />
+    <ellipse cx="6" cy="-8" rx="3.5" ry="1.4" fill="#0d3427" />
+    <circle cx="6" cy="-8" r="0.6" fill="#ffffff" />
+
+    <!-- Nose -->
+    <path d="M 0 -13 L -1 -4 L 1 -4 Z" fill="#d9c3ab" />
+
+    <!-- Lips -->
+    <path d="M -3.5 -1 C -1 0 1 0 3.5 -1" stroke="#b85834" stroke-width="1" stroke-linecap="round" />
+
+    <!-- Forehead & Hair -->
+    <path d="M -16 -16 C -16 -27 -8 -34 0 -34 C 8 -34 16 -27 16 -16 Z" fill="#0c2a20" />
+
+    <!-- Priest-King Headband / Fillet -->
+    <rect x="-16.5" y="-20" width="33" height="4.5" rx="1.5" fill="#c25e36" />
+    <circle cx="0" cy="-17.75" r="3.75" fill="#f6efe6" stroke="#c25e36" stroke-width="1" />
+    <circle cx="0" cy="-17.75" r="1.5" fill="#0d3427" />
+
+    <!-- Waves -->
+    <path d="M -15 -20 C -15 -27 -8 -32 0 -32 C 8 -32 15 -27 15 -20" stroke="#1a5a46" stroke-width="1.2" fill="none" />
+    <ellipse cx="0" cy="-33" rx="5" ry="2.2" fill="#c25e36" />
+  </g>
+</svg>

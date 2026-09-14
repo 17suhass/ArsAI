@@ -1,0 +1,169 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String          @id @default(cuid())
+  email        String          @unique
+  name         String
+  role         String          @default("ARTISAN") // ARTISAN | BUYER | ADMIN
+  passwordHash String?
+  avatarUrl    String?
+  createdAt    DateTime        @default(now())
+  artisan      ArtisanProfile?
+  inquiries    Inquiry[]
+  orders       Order[]
+}
+
+model ArtisanProfile {
+  id                  String       @id @default(cuid())
+  userId              String       @unique
+  user                User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName            String
+  phone               String
+  upiId               String?      // e.g., ramesh.potter@upi
+  state               String       // e.g., "Uttar Pradesh"
+  district            String       // e.g., "Bulandshahr / Khurja"
+  primaryCraft        String       // e.g., "Terracotta & Ceramic Pottery"
+  experienceYears     Int          @default(15)
+  preferredLanguage   String       @default("hi") // "hi" or "en"
+  pehchanCardNo       String?      // e.g., "UP-KHU-2023-9021"
+  bioLocal            String?
+  bioEnglish          String?
+  profileImage        String?
+  products            Product[]
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+}
+
+model Product {
+  id                   String        @id @default(cuid())
+  artisanId            String
+  artisan              ArtisanProfile @relation(fields: [artisanId], references: [id], onDelete: Cascade)
+  
+  // Titles & Bilingual Content (Hindi + English)
+  title                String        // English Title
+  titleHindi           String?       // Hindi Title (हिंदी शीर्षक)
+  descriptionEnglish   String
+  descriptionHindi     String?
+  culturalHeritageStory String?      // Story of generational craft & lineage
+  
+  // Categorization & GI Assistance (Informational Only)
+  craftCategory        String        // e.g., "Terracotta Pottery", "Madhubani Art"
+  giCraftRegion        String?       // e.g., "Khurja Pottery (Uttar Pradesh)"
+  isGiInformational    Boolean       @default(true) // Explicit: Informational assistance only
+  giDisclaimer         String?       @default("Informational assistance: indicates traditional regional craft characteristics, not a legal certificate.")
+
+  // Technical Specs & Attributes
+  materialsUsed        String        // e.g. "Natural river silt, lead-free mineral glaze"
+  dimensions           String?       // e.g. "12 x 8 inches"
+  colors               String?       // e.g. "Earthen Red, Ochre"
+  tags                 String?       // Comma separated tags
+  
+  // 3-Step Separated Pricing Assistant (Phase 4 extended)
+  artisanCostPrice       Float         // Step 1: Base cost artisan stated
+  estimatedLaborDays     Float?        // Step 1: Craft complexity / labor days
+  suggestedRetailMin     Float         // Step 2: AI recommendation — minimum
+  suggestedRetailMax     Float         // Step 2: AI recommendation — fair/recommended
+  suggestedRetailPremium Float?        // Phase 4: AI recommendation — premium tier
+  finalListingPrice      Float         // Step 3: Artisan confirmed selling price
+  pricingRationale       String?       // Explainable pricing breakdown / AI explanation
+  pricingFactors         String?       // Phase 4: Comma-separated factors AI considered
+  
+  // AI Listing Quality Score (Refinement 4)
+  aiQualityScore       Int?          @default(88) // 0-100 listing completeness & impact score
+  aiQualityFeedback    String?       // Suggestions for photo lighting, specs, or story depth
+  
+  // Media & Status
+  primaryImageUrl      String
+  status               String        @default("PUBLISHED") // DRAFT | PUBLISHED | ARCHIVED
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  
+  inquiries            Inquiry[]
+  reviews              Review[]
+  orderItems           OrderItem[]
+}
+
+model Review {
+  id                  String   @id @default(cuid())
+  productId           String
+  product             Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating              Int
+  reviewText          String
+  customerDisplayName String?
+  verifiedPurchase    Boolean  @default(false)
+  privateNote         String?
+  photos              String?
+  createdAt           DateTime @default(now())
+}
+
+model Inquiry {
+  id           String      @id @default(cuid())
+  productId    String
+  product      Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  buyerId      String?
+  buyer        User?       @relation(fields: [buyerId], references: [id])
+  buyerName    String
+  buyerPhone   String
+  buyerEmail   String?
+  type         String      @default("D2C_WHATSAPP") // D2C_WHATSAPP | B2B_BULK_RFQ
+  bulkQuantity Int?
+  message      String
+  status       String      @default("PENDING") // PENDING, CONNECTED, COMPLETED
+  createdAt    DateTime    @default(now())
+}
+
+model GovernmentScheme {
+  id                  String   @id @default(cuid())
+  code                String   @unique // PM_VISHWAKARMA, ODOP, MUDRA, PEHCHAN
+  name                String
+  nameHindi           String
+  nodalMinistry       String
+  briefDescription    String
+  briefDescriptionHindi String
+  keyBenefits         String
+  keyBenefitsHindi    String
+  targetCrafts        String   // Comma-separated craft keywords
+  targetStates        String   // "ALL" or comma-separated states
+  officialPortalUrl   String
+  isInformational     Boolean  @default(true) // Explicit disclaimer
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique // e.g., ARSAI-10482
+  buyerId         String
+  buyer           User        @relation(fields: [buyerId], references: [id])
+  status          String      @default("PLACED") // PLACED, CONFIRMED, PROCESSING, SHIPPED, DELIVERED, CANCELLED
+  paymentStatus   String      @default("PAID") // PENDING, PAID, REFUNDED
+  paymentMethod   String      @default("DEMO_PAYMENT") // UPI, COD, DEMO_PAYMENT
+  subtotal        Float
+  deliveryFee     Float       @default(0)
+  total           Float
+  deliveryName    String
+  deliveryPhone   String
+  deliveryAddress String
+  deliveryCity    String
+  deliveryState   String
+  deliveryPincode String
+  items           OrderItem[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int      @default(1)
+  unitPrice Float    // Immutable snapshot of product price at purchase time
+  subtotal  Float
+}
